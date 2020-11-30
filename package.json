@@ -1,0 +1,43 @@
+{
+  "name": "avito-vas",
+  "version": "1.0.0",
+  "description": "Banner editor",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development webpack serve",
+    "build": "cross-env NODE_ENV=production webpack",
+    "start": "npm install && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitriymgtu/Avito-vas.git"
+  },
+  "keywords": [
+    "Typescript",
+    "javascript",
+    "react"
+  ],
+  "author": "Dmitriy <dmitriykhotin@mail.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dmitriymgtu/Avito-vas/issues"
+  },
+  "homepage": "https://github.com/Dmitriymgtu/Avito-vas#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.3.2",
+    "cross-env": "^7.0.2",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^4.5.0",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.1.2",
+    "webpack": "^5.9.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
