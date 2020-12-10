@@ -1,5 +1,6 @@
-import React, {FC, ReactNode, SetStateAction, useEffect, useRef} from "react"
+import React, {ChangeEvent, FC, ReactNode, useContext, useEffect} from "react"
 import styled from "styled-components"
+import {BannerContext} from "../../providers/BannerProvider";
 
 const FieldWrapper = styled.div`
   border: 1px solid rgba(65, 46, 46, 0.32);
@@ -72,60 +73,77 @@ interface Props {
   setVisible?: () => void
   color?: string
   value?: string
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  name?: string
 }
 
-const Field: FC<Props> = ({title, setVisible, color, value, onChange}) => {
+const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
 
-  const option = useRef<HTMLInputElement>()
+  const banner = useContext(BannerContext)
 
   const setFile = (event: {target: HTMLInputElement}) => {
-    const img = document.createElement('img')
-    img.style.position = 'absolute'
-    img.style.left = '50%'
-    img.style.top = '50%'
-    img.style.transform = 'translate(-50%, -50%)'
     const reader = new FileReader()
     reader.onload = function(event: {target: any}) {
-      img.setAttribute('src', event.target.result);
-      const banner = document.getElementById('banner')
-      banner.appendChild(img);
+      banner.setState({
+        ...banner,
+        imgs: [
+          ...banner.imgs,
+          {
+            id: (new Date()).getTime().toString(),
+            src: event.target.result,
+            left: '50%',
+            top: '50%'
+          }
+        ]
+      })
     }
     reader.readAsDataURL(event.target.files[0])
   }
 
-  useEffect(() => {
-    console.log('render')
-  })
+  const defaultKeyHandler = (event: React.KeyboardEvent) => {
+    if (event.keyCode === 38)
+      banner.setState({...banner, [name]: Number(value.slice(0, -2)) + 1 + 'px'})
+    else if (event.keyCode === 40)
+      banner.setState({...banner, [name]: Number(value.slice(0, -2)) - 1 + 'px'})
+  }
+
+  const dataURIKeyHandler = (event: React.KeyboardEvent) => {
+    if (event.keyCode === 46 || event.keyCode === 8)
+      banner.setState({
+        ...banner,
+        dataURI: {
+          id: '',
+          src: '',
+          left: '',
+          top: ''
+        }})
+  }
 
   const getField = (): ReactNode =>  {
     switch (title) {
       case 'Файл':
         return (
           <>
-          <FileLabel htmlFor={'fileInput'}>
-            +
-          </FileLabel>
-          <FileInput id='fileInput' type='file' multiple accept='image/*' onChange={setFile}/>
-        </>
+            <FileLabel htmlFor={'fileInput'}>
+              +
+            </FileLabel>
+            <FileInput id='fileInput' type='file' multiple accept='image/*' onChange={setFile}/>
+          </>
         );
-      // case 'Текст':
-      //   return <TextArea value={value} onChange={(event) =>  onChange(event)}/>
+      case 'Текст':
+        return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, p: {...banner.p, [name]: event.target.value}})}/>
       case 'Цвет':
         return (
-          <ColorPicker color={color}/>
+          <ColorPicker color={color} onClick={setVisible}/>
         )
+      case 'dataURI':
+        return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, dataURI: {id: (new Date()).getTime().toString(), src: event.target.value, left: '50%', top: '50%'}})} onKeyDown={(event: React.KeyboardEvent) => dataURIKeyHandler(event)}/>
       default:
-        return <FieldInput type='text' value={value} onChange={onChange}/>
+        return <FieldInput type='text' value={value.slice(0, -2)} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, [name]: event.target.value + 'px'})} onKeyDown={(event: React.KeyboardEvent) => defaultKeyHandler(event)}/>
     }
   }
 
-  // useEffect(() => {
-  //
-  // }, [option.current.focus])
-
   return (
-    <FieldWrapper onClick={setVisible}>
+    <FieldWrapper>
       <FieldTitle>
         {title}
       </FieldTitle>

@@ -4,6 +4,7 @@ import Header from "./Header";
 import ButtonsRow from "../ButtonRow";
 import BannerSettings from "../BannerSettings";
 import BannerView from "../BannerView";
+import BannerProvider from '../providers/BannerProvider'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -24,10 +25,9 @@ const StyledWrapper = styled.div`
   align-items: center;
 `;
 
-const width = 538
 const App: FC<{}> = () => {
   return (
-    <>
+    <BannerProvider>
       <GlobalStyle/>
       <Header/>
       <ButtonsRow/>
@@ -35,9 +35,7 @@ const App: FC<{}> = () => {
         <BannerView/>
         <BannerSettings/>
       </StyledWrapper>
-      {/*<Main/>*/}
-      {/*<Footer/>*/}
-    </>
+    </BannerProvider>
   )
 }
 
