@@ -1,6 +1,8 @@
-import React, {FC} from "react"
+import React, {FC, useContext} from "react"
 import styled from "styled-components"
+import html2canvas from 'html2canvas';
 import Button from "./Button";
+import {BannerContext} from "../providers/BannerProvider";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -10,11 +12,45 @@ const ButtonWrapper = styled.div`
 `;
 
 const ButtonsRow: FC<{}> = () => {
+  const banner = useContext(BannerContext)
+
+  const download = (filename: string, dataURI: string) => {
+    var element = document.createElement('a');
+    element.setAttribute('href', dataURI);
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
+  const saveAsPNG = () => {
+    html2canvas(document.getElementById('banner')).then((canvas) => {
+      download('banner.png', canvas.toDataURL());
+    });
+  }
+
+  const copyAsHtml = () => {
+    navigator.clipboard
+      .writeText(document.getElementById('banner').outerHTML)
+      .then(() => alert('Скопировано'))
+      .catch(() => alert('Ошибка'))
+  }
+
+  const copyAsJson = () => {
+    navigator.clipboard
+      .writeText(JSON.stringify(banner))
+      .then(() => alert('Скопировано'))
+      .catch(() => alert('Ошибка'))
+  }
   return (
     <ButtonWrapper>
-      <Button text='.png' onClick={() => alert('.png')} color='#a273f7'/>
-      <Button text='.html' onClick={() => alert('.html')} color='#eb5c60'/>
-      <Button text='.json' onClick={() => alert('.json')} color='#97cf26'/>
+      <Button text='.png' onClick={saveAsPNG}/>
+      <Button text='.html' onClick={copyAsHtml}/>
+      <Button text='.json' onClick={copyAsJson}/>
     </ButtonWrapper>
   )
 }
