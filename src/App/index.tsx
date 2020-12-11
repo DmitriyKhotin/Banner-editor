@@ -20,7 +20,6 @@ const GlobalStyle = createGlobalStyle`
 
 const StyledWrapper = styled.div`
   display: flex;
-  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
 `;
@@ -32,8 +31,8 @@ const App: FC<{}> = () => {
       <Header/>
       <ButtonsRow/>
       <StyledWrapper>
-        <BannerView/>
         <BannerSettings/>
+        <BannerView/>
       </StyledWrapper>
     </BannerProvider>
   )

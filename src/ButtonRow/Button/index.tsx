@@ -7,9 +7,9 @@ const StyledButton = styled.button`
   line-height: 100%;
   padding: 15px 0;
   font-family: Roboto;
-  border-radius: 15px;
-  background-color: ${props => props.color};
-  border: 1px solid #412E2E;
+  border-radius: 35px;
+  background-color: #d6d6d4;
+  border: 1px solid #756969;
   text-align: center;
   
   &:focus {
@@ -19,13 +19,12 @@ const StyledButton = styled.button`
 interface Props {
   onClick: () => void
   text: string
-  color: string
 }
 
-const Button: FC<Props> = ({text, onClick, color}) => {
+const Button: FC<Props> = ({text, onClick}) => {
 
   return (
-    <StyledButton onClick={onClick} color={color}>
+    <StyledButton onClick={onClick}>
       {text}
     </StyledButton>
   )
