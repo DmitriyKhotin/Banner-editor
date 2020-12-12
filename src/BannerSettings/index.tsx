@@ -7,8 +7,20 @@ import { BannerContext } from '../providers/BannerProvider'
 
 const StyledWrapper = styled.div`
   border: 1px solid #BBB5B5;
-  width: 500px;
   border-bottom: none; 
+  
+  @media (max-width: 835px) {
+    margin-bottom: 40px;
+  }
+  
+  @media (max-width: 835px) and (min-height: 925px) {
+      width: 260px;
+  }  
+  
+  @media (max-width: 750px) {
+    width: 100%;
+  }
+   
 `;
 
 const Row = styled.div`
@@ -18,10 +30,12 @@ const Row = styled.div`
 `;
 
 const PickerWrapper = styled.div`
-  bottom: 10px;
-  right: 5px;
+  bottom: 50px;
   position: absolute;
   display: ${props => props.hidden ? 'none' : 'block'};
+`;
+
+const RightColumn = styled.div`
 `;
 
 const BannerSettings: FC<{}> = () => {
@@ -53,16 +67,18 @@ const BannerSettings: FC<{}> = () => {
       </Cell>
       <Cell title={'Шрифт'}>
         <Field title='Текст' name='text' value={banner.p.text}/>
-        <Field title='Размер' name='fontSize' value={banner.fontSize}/>
-        <Row>
-          <Field title='Цвет' setVisible={() => setTextColorPickerVisible(prevState => !prevState)} color={banner.color}/>
-          {
-            textColorPickerVisible &&
-            <PickerWrapper>
-              <SketchPicker color={banner.color} onChangeComplete={(color: any) => banner.setState({...banner, color: color.hex})}/>
-            </PickerWrapper>
-          }
-        </Row>
+        <RightColumn>
+          <Field title='Размер' name='fontSize' value={banner.fontSize}/>
+          <Row>
+            <Field title='Цвет' setVisible={() => setTextColorPickerVisible(prevState => !prevState)} color={banner.color}/>
+            {
+              textColorPickerVisible &&
+              <PickerWrapper>
+                <SketchPicker color={banner.color} onChangeComplete={(color: any) => banner.setState({...banner, color: color.hex})}/>
+              </PickerWrapper>
+            }
+          </Row>
+        </RightColumn>
       </Cell>
     </StyledWrapper>
   )

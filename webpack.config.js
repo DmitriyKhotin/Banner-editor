@@ -5,8 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
-console.log('isProd', isProd)
-console.log('isDev', isDev)
+
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',

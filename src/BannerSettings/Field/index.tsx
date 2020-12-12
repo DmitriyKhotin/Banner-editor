@@ -9,18 +9,35 @@ const FieldWrapper = styled.div`
   margin-right: 30px;
   margin-bottom: 9px;
   display: flex;
-  align-items: center;
-  height: 100%;
   justify-content: space-between;
+  
+  @media (max-height: 950px) {
+    margin-right: 20px;
+  }
+  
+  @media (max-height: 850px) {
+    font-size: 24px;
+  }
+  
+  @media (max-width: 900px) {
+    width: 170px;
+  }
+}
 `;
 
 const FieldTitle = styled.p`
-  margin: 9px 16px 9px 16px;
-  display: flex;
-  align-items: center;
+  margin: 9px 16px;
   font-size: 22px;
   min-width: max-content;
   line-height: 100%;
+  
+  @media (max-height: 950px) {
+    margin: 5px 16px;
+  }
+  
+  @media (max-width: 900px) {
+    margin: 5px 8px;
+  }
 `;
 
 const FieldInput = styled.input`
@@ -28,10 +45,19 @@ const FieldInput = styled.input`
   border: none;
   min-width: 70px;
   height: 100%;
-  padding: 9px 16px 9px 16px;
+  padding: 9px 16px;
   font-size: 22px;
   line-height: 100%;
   outline: none;
+  text-align: end;
+  
+  @media (max-height: 950px) {
+    padding: 5px 16px;
+  }
+  
+  @media (max-width: 450px) and (max-height: 949px) {
+    font-size: 18px;
+  }
 `;
 
 const FileInput = styled(FieldInput)`
@@ -48,16 +74,19 @@ const FileLabel = styled.label`
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 100%;
   border: none;
   border-radius: 9px;
-  height: max-content;
   resize: none;
-  padding: 9px 16px 9px 16px;
+  padding: 9px 16px;
   font-size: 22px;
   line-height: 100%;
   outline: none;
   -moz-appearance: none;
+  overflow: hidden;  
+  
+  @media (max-width: 450px) and (max-height: 949px) {
+    font-size: 18px;
+  }
 `;
 
 const ColorPicker = styled.div`
@@ -65,7 +94,16 @@ const ColorPicker = styled.div`
   width: 22px;
   border: 1px solid silver;
   margin-right: 17px;
-  background-color: ${props => props.color}
+  margin-top: 9px;
+  background-color: ${props => props.color};
+ 
+ @media (max-height: 950px) {
+    margin-top: 5px;
+  }
+  
+  @media (max-width: 900px) {
+    margin-top: 5px;
+  }
 `;
 
 interface Props {
@@ -130,7 +168,8 @@ const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
           </>
         );
       case 'Текст':
-        return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, p: {...banner.p, [name]: event.target.value}})}/>
+        return <TextArea value={value} onChange={(event: ChangeEvent<HTMLTextAreaElement>) => banner.setState({...banner, p: {...banner.p, [name]: event.target.value}})}/>
+      // return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, p: {...banner.p, [name]: event.target.value}})}/>
       case 'Цвет':
         return (
           <ColorPicker color={color} onClick={setVisible}/>
