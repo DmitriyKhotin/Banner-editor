@@ -114,6 +114,7 @@ interface Props {
   name?: string
 }
 
+
 const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
 
   const banner = useContext(BannerContext)
@@ -137,11 +138,13 @@ const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
     reader.readAsDataURL(event.target.files[0])
   }
 
+  const is_valid = (value: string) => (value && value[0] !== '-' && value !== '0')
+
   const defaultKeyHandler = (event: React.KeyboardEvent) => {
-    if (event.keyCode === 38)
-      banner.setState({...banner, [name]: Number(value.slice(0, -2)) + 1 + 'px'})
-    else if (event.keyCode === 40)
-      banner.setState({...banner, [name]: Number(value.slice(0, -2)) - 1 + 'px'})
+    if (event.keyCode === 38 && is_valid((parseInt(value) + 1).toString()))
+      banner.setState({...banner, [name]: parseInt(value) + 1 + 'px'})
+    else if (event.keyCode === 40 && is_valid((parseInt(value) - 1).toString()))
+      banner.setState({...banner, [name]: parseInt(value) - 1 + 'px'})
   }
 
   const dataURIKeyHandler = (event: React.KeyboardEvent) => {
@@ -177,7 +180,7 @@ const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
       case 'dataURI':
         return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, dataURI: {id: (new Date()).getTime().toString(), src: event.target.value, left: '50%', top: '50%'}})} onKeyDown={(event: React.KeyboardEvent) => dataURIKeyHandler(event)}/>
       default:
-        return <FieldInput type='text' value={value.slice(0, -2)} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, [name]: event.target.value + 'px'})} onKeyDown={(event: React.KeyboardEvent) => defaultKeyHandler(event)}/>
+        return <FieldInput type='text' value={parseInt(value)} onChange={(event: ChangeEvent<HTMLInputElement>) => {is_valid(event.target.value) ? banner.setState({...banner, [name]: event.target.value + 'px'}) : null}} onKeyDown={(event: React.KeyboardEvent) => defaultKeyHandler(event)}/>
     }
   }
 

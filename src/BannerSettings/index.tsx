@@ -1,8 +1,9 @@
 import React, {FC, useContext, useState} from "react"
 import styled from "styled-components"
+import {SketchPicker} from "react-color";
 import Cell from "./Cell";
 import Field from "./Field";
-import {SketchPicker} from "react-color";
+import ValidationError from "./ValidationError";
 import { BannerContext } from '../providers/BannerProvider'
 
 const StyledWrapper = styled.div`
@@ -48,7 +49,9 @@ const BannerSettings: FC<{}> = () => {
     <StyledWrapper>
       <Cell title={'Параметры'}>
         <Field title='Высота' name='height' value={banner.height}/>
+        {/*<ValidationError value={banner.height}/>*/}
         <Field title='Ширина' name='width' value={banner.width}/>
+        {/*<ValidationError value={banner.width}/>*/}
       </Cell>
       <Cell title={'Картинка'}>
         <Field title='Файл'/>
@@ -59,9 +62,9 @@ const BannerSettings: FC<{}> = () => {
           <Field title='Цвет' setVisible={() => setBackgroundColorPickerVisible(prevState => !prevState)} color={banner.backgroundColor}/>
           {
             backgroundColorPickerVisible &&
-              <PickerWrapper>
-                <SketchPicker color={banner.backgroundColor} onChangeComplete={(color: any) => banner.setState({...banner, backgroundColor: color.hex})}/>
-              </PickerWrapper>
+            <PickerWrapper>
+              <SketchPicker color={banner.backgroundColor} onChangeComplete={(color: any) => banner.setState({...banner, backgroundColor: color.hex})}/>
+            </PickerWrapper>
           }
         </Row>
       </Cell>
@@ -69,6 +72,7 @@ const BannerSettings: FC<{}> = () => {
         <Field title='Текст' name='text' value={banner.p.text}/>
         <RightColumn>
           <Field title='Размер' name='fontSize' value={banner.fontSize}/>
+          {/*<ValidationError value={banner.fontSize}/>*/}
           <Row>
             <Field title='Цвет' setVisible={() => setTextColorPickerVisible(prevState => !prevState)} color={banner.color}/>
             {

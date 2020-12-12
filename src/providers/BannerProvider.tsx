@@ -22,9 +22,12 @@ interface IBanner {
   color: string
 }
 
+const height = 450 > window.innerHeight ? window.innerHeight - 20 : 450
+const width = 340 > window.innerWidth ? window.innerWidth - 20 : 340
+
 const initialState: IBanner = {
-  height: '450px',
-  width: '340px',
+  height: `${height}px`,
+  width: `${width}px`,
   imgs: [],
   dataURI: {
     id: '',
