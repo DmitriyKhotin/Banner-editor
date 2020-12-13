@@ -7,21 +7,21 @@ Deployed: https://avito-vas.vercel.app
  ![](ezgif.com-video-to-gif.gif)
  
 #### You can:
- 
-1. change
+1. Move text and images inside banner
+2. change: 
 * banner size
 * banner font size
 * banner text
 * banner text color
 * background color
-2. insert image:
+3. insert image:
 * by dataURI in the field dataURI
 * local file
 * by link in the field dataURI 
-3. copy as:
+4. copy as:
 * html
 * json
-4. download as png
+5. download as png
 
 ## Installation
 
