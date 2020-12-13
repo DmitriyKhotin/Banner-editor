@@ -1,42 +1,10 @@
-import React, {FC, useContext, useState} from "react"
-import styled from "styled-components"
+import React, {FC, useCallback, useContext, useState} from "react"
 import {SketchPicker} from "react-color";
 import Cell from "./Cell";
 import Field from "./Field";
 import { BannerContext } from 'providers/BannerProvider'
-
-const StyledWrapper = styled.div`
-  border: 1px solid #BBB5B5;
-  border-bottom: none; 
-  
-  @media (max-width: 835px) {
-    margin-bottom: 40px;
-  }
-  
-  @media (max-width: 835px) and (min-height: 925px) {
-      width: 260px;
-  }  
-  
-  @media (max-width: 750px) {
-    width: 100%;
-  }
-   
-`;
-
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-`;
-
-const PickerWrapper = styled.div`
-  bottom: 50px;
-  position: absolute;
-  display: ${props => props.hidden ? 'none' : 'block'};
-`;
-
-const RightColumn = styled.div`
-`;
+import {PickerWrapper, RightColumn, Row, StyledWrapper} from "./styles";
+import {BannerNames, BannerTitles, SettingTitles} from "../types";
 
 interface Color {
   hex: object,
@@ -48,19 +16,21 @@ const BannerSettings: FC = () => {
   const banner = useContext(BannerContext)
   const [textColorPickerVisible, setTextColorPickerVisible] = useState(false)
 
+  const setTextColorVisible = useCallback(() => setTextColorPickerVisible(prevState => !prevState), [])
+  const setBackgroundColorVisible = useCallback(() => setBackgroundColorPickerVisible(prevState => !prevState), [])
   return (
     <StyledWrapper>
-      <Cell title={'Параметры'}>
-        <Field title='Высота' name='height' value={banner.height}/>
-        <Field title='Ширина' name='width' value={banner.width}/>
+      <Cell title={SettingTitles.params}>
+        <Field title={BannerTitles[BannerNames.height]} name={BannerNames.height} value={banner.height}/>
+        <Field title={BannerTitles[BannerNames.width]} name={BannerNames.width} value={banner.width}/>
       </Cell>
-      <Cell title={'Картинка'}>
+      <Cell title={SettingTitles.images}>
         <Field title='Файл'/>
-        <Field title='dataURI' name='dataURI' value={banner.dataURI.src}/>
+        <Field title={BannerTitles[BannerNames.dataURI]} name={BannerNames.dataURI} value={banner.dataURI.src}/>
       </Cell>
-      <Cell title={'Фон'}>
+      <Cell title={SettingTitles.background}>
         <Row>
-          <Field title='Цвет' setVisible={() => setBackgroundColorPickerVisible(prevState => !prevState)} color={banner.backgroundColor}/>
+          <Field title='Цвет' setVisible={setBackgroundColorVisible} color={banner.backgroundColor}/>
           {
             backgroundColorPickerVisible &&
             <PickerWrapper>
@@ -69,12 +39,12 @@ const BannerSettings: FC = () => {
           }
         </Row>
       </Cell>
-      <Cell title={'Шрифт'}>
-        <Field title='Текст' name='text' value={banner.p.text}/>
+      <Cell title={SettingTitles.font}>
+        <Field title={BannerTitles[BannerNames.text]} name={BannerNames.text} value={banner.p.text}/>
         <RightColumn>
-          <Field title='Размер' name='fontSize' value={banner.fontSize}/>
+          <Field title={BannerTitles[BannerNames.fontSize]} name={BannerNames.fontSize} value={banner.fontSize}/>
           <Row>
-            <Field title='Цвет' setVisible={() => setTextColorPickerVisible(prevState => !prevState)} color={banner.color}/>
+            <Field title='Цвет' setVisible={setTextColorVisible} color={banner.color}/>
             {
               textColorPickerVisible &&
               <PickerWrapper>

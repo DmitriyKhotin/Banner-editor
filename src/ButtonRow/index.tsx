@@ -1,40 +1,16 @@
 import React, {FC, useContext} from "react"
-import styled from "styled-components"
 import html2canvas from 'html2canvas';
 import Button from "./Button";
 import {BannerContext} from "providers/BannerProvider";
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
-  padding: 0 100px;
-  margin-bottom: 40px;
-  
-  @media (max-width: 850px) {
-    padding: 0 80px;
-  }
-  
-  @media (max-width: 700px) {
-    padding: 0 30px;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 0;
-  }
-  
-  @media (max-height: 950px) {
-    margin-bottom: 25px;
-  }
- 
-`;
+import {ButtonWrapper} from "./styles";
 
 const ButtonsRow: FC = () => {
   const banner = useContext(BannerContext)
 
   const download = (filename: string, dataURI: string) => {
-    var element = document.createElement('a');
-    element.setAttribute('href', dataURI);
-    element.setAttribute('download', filename);
+    const element = document.createElement('a');
+    element.href = dataURI
+    element.download = filename
 
     element.style.display = 'none';
     document.body.appendChild(element);

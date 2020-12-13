@@ -20,7 +20,7 @@ module.exports = {
     extensions: [ '.tsx', '.ts', '.js', '.json' ],
     alias: {
       providers: path.resolve(srcPath, 'providers'),
-
+      types: path.resolve(srcPath, 'types')
     }
   },
   devtool: !isProd ? 'source-map' : false,

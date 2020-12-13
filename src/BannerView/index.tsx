@@ -1,15 +1,15 @@
 import React, { FC, useContext, useRef} from "react"
-import {BannerContext, Image} from "providers/BannerProvider";
+import {BannerContext} from "providers/BannerProvider";
+import {Image} from "types";
+import {BannerNames, BannerTitles} from "../types";
 
 interface Coords {
   x: number
   y: number
 }
 
-type Elem = 'dataURI' | 'image' | 'text'
-
 const BannerView: FC = () => {
-  const banner = useContext(BannerContext)
+  const {setState, ...banner} = useContext(BannerContext)
   const bannerRef = useRef<HTMLDivElement>()
 
   const getBannerCoords = (): Coords => {
@@ -19,45 +19,45 @@ const BannerView: FC = () => {
     }
   }
 
-  const dragAndDrop = (event: React.MouseEvent, elementType: Elem) => {
+  const dragAndDrop = (event: React.MouseEvent, elementType: BannerNames) => {
     const elem = document.getElementById((event.target as Element).id)
     elem.ondragstart = () => false
     const coords = getBannerCoords()
     moveAt(event.pageX, event.pageY)
 
     function moveAt(X: number, Y: number) {
-      if (X >= (coords.x + elem.offsetWidth / 2) && X <= (coords.x + Number(banner.width.slice(0, -2)) - elem.offsetWidth / 2) && Y >= (coords.y + elem.offsetHeight / 2) && Y <= (coords.y + Number(banner.height.slice(0, -2)) - elem.offsetHeight / 2))
+      if (X >= (coords.x + elem.offsetWidth / 2) && X <= (coords.x + banner.width - banner.fontSize) && Y >= (coords.y + elem.offsetHeight / 2) && Y <= (coords.y + banner.height - elem.offsetHeight / 2))
         switch (elementType) {
-          case 'image':
-            banner.setState({
+          case BannerNames.image:
+            setState({
               ...banner,
               imgs: [
                 ...banner.imgs.filter((image: Image) => image.id !== elem.id),
                 {
                   ...banner.imgs.find((image: Image) => image.id === elem.id),
-                  left: X - coords.x + 'px',
-                  top: Y - coords.y + 'px'
+                  left: X - coords.x - elem.offsetWidth / 2,
+                  top: Y - coords.y - elem.offsetHeight / 2
                 }
               ]
             })
             break
-          case 'text':
-            banner.setState({
+          case BannerNames.text:
+            setState({
               ...banner,
               p: {
                 ...banner.p,
-                left: X - coords.x - elem.offsetWidth / 2 + 'px',
-                top: Y - coords.y - elem.offsetHeight / 2 + 'px'
+                left: X - coords.x - elem.offsetWidth / 2,
+                top: Y - coords.y - elem.offsetHeight / 2
               }
             })
             break
-          case 'dataURI':
-            banner.setState({
+          case BannerNames.dataURI:
+            setState({
               ...banner,
               dataURI: {
                 ...banner.dataURI,
-                left: X - coords.x + 'px',
-                top: Y - coords.y + 'px'
+                left: X - coords.x - elem.offsetWidth / 2,
+                top: Y - coords.y - elem.offsetHeight / 2
               }
             })
             break
@@ -77,14 +77,18 @@ const BannerView: FC = () => {
     };
   }
 
+  const getPX = (value: number): string => {
+    return value + 'px'
+  }
+
   return (
     <div
       style={{
         border: '1px solid #412E2E',
         borderRadius: '40px',
         position: 'relative',
-        height: banner.height,
-        width: banner.width,
+        height: getPX(banner.height),
+        width: getPX(banner.width),
         backgroundColor: banner.backgroundColor
       }}
       ref={bannerRef}
@@ -99,12 +103,11 @@ const BannerView: FC = () => {
           style={{
             position: 'absolute',
             width: 'fit-content',
-            left: image.left,
-            top: image.top,
-            transform: 'translate(-50%, -50%)',
+            left: getPX(image.left),
+            top: getPX(image.top),
             cursor: 'pointer',
           }}
-          onMouseDown={(event) => dragAndDrop(event, 'image')}
+          onMouseDown={(event) => dragAndDrop(event, BannerNames.image)}
         />
       )}
       {banner.dataURI.id &&
@@ -115,12 +118,11 @@ const BannerView: FC = () => {
           style={{
             position: 'absolute',
             width: 'fit-content',
-            left: banner.dataURI.left,
-            top: banner.dataURI.top,
-            transform: 'translate(-50%, -50%)',
+            left: getPX(banner.dataURI.left),
+            top: getPX(banner.dataURI.top),
             cursor: 'pointer',
           }}
-          onMouseDown={(event) => dragAndDrop(event, 'dataURI')}
+          onMouseDown={(event) => dragAndDrop(event, BannerNames.dataURI)}
         />
       }
       {banner.p.text &&
@@ -128,16 +130,17 @@ const BannerView: FC = () => {
           id='p'
           style={{
             position: 'absolute',
-            top: banner.p.top,
-            left: banner.p.left,
+            top: getPX(banner.p.top),
+            left: getPX(banner.p.left),
             cursor: 'pointer',
-            fontSize: banner.fontSize,
+            fontSize: getPX(banner.fontSize),
             color: banner.color,
             lineHeight: '100%',
-            maxHeight: 3 * banner.fontSize.slice(0, -2) + 'px',
+            maxHeight: getPX(3 * banner.fontSize),
             overflow: 'hidden',
+            wordBreak: 'break-all'
           }}
-          onMouseDown={(event) => dragAndDrop(event, 'text')}
+          onMouseDown={(event) => dragAndDrop(event, BannerNames.text)}
         >
           {banner.p.text}
         </p>

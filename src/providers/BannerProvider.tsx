@@ -1,47 +1,26 @@
 import React, {useState} from "react"
-
-export interface Image {
-  id: string
-  src: string
-  left: string
-  top: string
-}
-
-interface IBanner {
-  height: string
-  width: string
-  imgs: Image[]
-  dataURI: Image
-  backgroundColor: string
-  p: {
-    text: string,
-    left: string
-    top: string
-  }
-  fontSize: string
-  color: string
-}
+import {IBanner} from "types";
 
 const height = 450 > window.innerHeight ? window.innerHeight - 20 : 450
 const width = 340 > window.innerWidth ? window.innerWidth - 20 : 340
 
 const initialState: IBanner = {
-  height: `${height}px`,
-  width: `${width}px`,
+  height: height,
+  width: width,
   imgs: [],
   dataURI: {
     id: '',
     src: '',
-    left: '50%',
-    top: '50%'
+    left: 50,
+    top: 50
   },
   backgroundColor: '#ffffff',
   p: {
     text: 'Некоторый текст',
-    left: '20px',
-    top: '20px'
+    left: 20,
+    top: 20
   },
-  fontSize: '14px',
+  fontSize: 14,
   color: '#000000'
 }
 
