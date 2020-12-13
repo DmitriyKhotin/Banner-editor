@@ -21,9 +21,12 @@ const ButtonsRow: FC = () => {
   }
 
   const saveAsPNG = () => {
-    html2canvas(document.getElementById('banner')).then((canvas) => {
-      download('banner.png', canvas.toDataURL());
-    });
+    html2canvas(document.getElementById('banner'))
+      .then((canvas) => {
+      alert('Скачивание сейчас начнется')
+      download('banner.png', canvas.toDataURL())
+    })
+      .catch(() => alert('Ошибка'))
   }
 
   const copyAsHtml = () => {

@@ -11,9 +11,13 @@ export const StyledButton = styled.button`
   border: 1px solid #756969;
   text-align: center;
   
-  // &:focus {
-  //   outline: none;
-  // }
+  &:focus {
+    outline: none;
+  }
+  
+  &:hover {
+    cursor: pointer;
+  }
   
   @media (max-width: 1050px) {
     width: 150px;

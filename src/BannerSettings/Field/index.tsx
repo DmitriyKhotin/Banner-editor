@@ -1,6 +1,7 @@
 import React, {ChangeEvent, FC, ReactNode, useContext} from "react"
 import {BannerContext} from "providers/BannerProvider";
 import {ColorPicker, FieldInput, FieldTitle, FieldWrapper, FileInput, FileLabel, TextArea} from "./styles";
+import {BannerNames, BannerTitles} from "../../types";
 
 interface Props {
   title: string
@@ -56,7 +57,7 @@ const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
 
   const getField = (): ReactNode =>  {
     switch (title) {
-      case 'Файл':
+      case BannerTitles[BannerNames.file]:
         return (
           <>
             <FileLabel htmlFor={'fileInput'}>
@@ -65,13 +66,11 @@ const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
             <FileInput id='fileInput' type='file' multiple accept='image/*' onChange={setFile}/>
           </>
         );
-      case 'Текст':
+      case BannerTitles[BannerNames.color]:
+        return <ColorPicker color={color} onClick={setVisible}/>
+      case BannerTitles[BannerNames.text]:
         return <TextArea value={value} onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setState({...banner, p: {...banner.p, [name]: event.target.value}})}/>
-      case 'Цвет':
-        return (
-          <ColorPicker color={color} onClick={setVisible}/>
-        )
-      case 'dataURI':
+      case BannerTitles[BannerNames.dataURI]:
         return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => setState({...banner, dataURI: {id: (new Date()).getTime().toString(), src: event.target.value, left: 50, top: 50}})} onKeyDown={(event: React.KeyboardEvent) => dataURIKeyHandler(event)}/>
       default:
         return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => {is_valid(event.target.value) ? setState({...banner, [name]: event.target.value}) : null}} onKeyDown={(event: React.KeyboardEvent) => defaultKeyHandler(event)}/>
@@ -80,9 +79,9 @@ const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
 
   return (
     <FieldWrapper>
-      <FieldTitle>
+      {title !== BannerTitles[BannerNames.text] && <FieldTitle>
         {title}
-      </FieldTitle>
+      </FieldTitle>}
       {getField()}
     </FieldWrapper>
   )

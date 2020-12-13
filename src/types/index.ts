@@ -26,7 +26,9 @@ export enum BannerNames {
   dataURI = 'dataURI',
   text = 'text',
   fontSize = 'fontSize',
-  image = 'image'
+  image = 'image',
+  file = 'file',
+  color = 'color'
 }
 
 export const BannerTitles = {
@@ -34,7 +36,10 @@ export const BannerTitles = {
   [BannerNames.width]: 'Ширина',
   [BannerNames.dataURI]: 'dataURI',
   [BannerNames.text]: 'Текст',
-  [BannerNames.fontSize]: 'Размер'
+  [BannerNames.fontSize]: 'Размер',
+  [BannerNames.file]: 'Файл',
+  [BannerNames.color]: 'Цвет'
+
 }
 
 export enum SettingTitles {
