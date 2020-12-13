@@ -2,7 +2,7 @@ import React, {FC, useContext} from "react"
 import styled from "styled-components"
 import html2canvas from 'html2canvas';
 import Button from "./Button";
-import {BannerContext} from "../providers/BannerProvider";
+import {BannerContext} from "providers/BannerProvider";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const ButtonWrapper = styled.div`
  
 `;
 
-const ButtonsRow: FC<{}> = () => {
+const ButtonsRow: FC = () => {
   const banner = useContext(BannerContext)
 
   const download = (filename: string, dataURI: string) => {

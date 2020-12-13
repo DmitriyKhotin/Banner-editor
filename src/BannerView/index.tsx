@@ -1,14 +1,14 @@
 import React, { FC, useContext, useRef} from "react"
-import {BannerContext, Image} from "../providers/BannerProvider";
+import {BannerContext, Image} from "providers/BannerProvider";
 
 interface Coords {
   x: number
   y: number
 }
 
-type Element = 'dataURI' | 'image' | 'text'
+type Elem = 'dataURI' | 'image' | 'text'
 
-const BannerView: FC<{}> = () => {
+const BannerView: FC = () => {
   const banner = useContext(BannerContext)
   const bannerRef = useRef<HTMLDivElement>()
 
@@ -19,8 +19,8 @@ const BannerView: FC<{}> = () => {
     }
   }
 
-  const dragAndDrop = (event: any, elementType: Element) => {
-    const elem = document.getElementById(event.target.id)
+  const dragAndDrop = (event: React.MouseEvent, elementType: Elem) => {
+    const elem = document.getElementById((event.target as Element).id)
     elem.ondragstart = () => false
     const coords = getBannerCoords()
     moveAt(event.pageX, event.pageY)
@@ -32,9 +32,9 @@ const BannerView: FC<{}> = () => {
             banner.setState({
               ...banner,
               imgs: [
-                ...banner.imgs.filter((image: Image) => image.id !== event.target.id),
+                ...banner.imgs.filter((image: Image) => image.id !== elem.id),
                 {
-                  ...banner.imgs.find((image: Image) => image.id === event.target.id),
+                  ...banner.imgs.find((image: Image) => image.id === elem.id),
                   left: X - coords.x + 'px',
                   top: Y - coords.y + 'px'
                 }

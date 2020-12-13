@@ -3,8 +3,7 @@ import styled from "styled-components"
 import {SketchPicker} from "react-color";
 import Cell from "./Cell";
 import Field from "./Field";
-import ValidationError from "./ValidationError";
-import { BannerContext } from '../providers/BannerProvider'
+import { BannerContext } from 'providers/BannerProvider'
 
 const StyledWrapper = styled.div`
   border: 1px solid #BBB5B5;
@@ -39,7 +38,11 @@ const PickerWrapper = styled.div`
 const RightColumn = styled.div`
 `;
 
-const BannerSettings: FC<{}> = () => {
+interface Color {
+  hex: object,
+}
+
+const BannerSettings: FC = () => {
 
   const [backgroundColorPickerVisible, setBackgroundColorPickerVisible] = useState(false)
   const banner = useContext(BannerContext)
@@ -49,9 +52,7 @@ const BannerSettings: FC<{}> = () => {
     <StyledWrapper>
       <Cell title={'Параметры'}>
         <Field title='Высота' name='height' value={banner.height}/>
-        {/*<ValidationError value={banner.height}/>*/}
         <Field title='Ширина' name='width' value={banner.width}/>
-        {/*<ValidationError value={banner.width}/>*/}
       </Cell>
       <Cell title={'Картинка'}>
         <Field title='Файл'/>
@@ -63,7 +64,7 @@ const BannerSettings: FC<{}> = () => {
           {
             backgroundColorPickerVisible &&
             <PickerWrapper>
-              <SketchPicker color={banner.backgroundColor} onChangeComplete={(color: any) => banner.setState({...banner, backgroundColor: color.hex})}/>
+              <SketchPicker color={banner.backgroundColor} onChangeComplete={(color: Color) => banner.setState({...banner, backgroundColor: color.hex})}/>
             </PickerWrapper>
           }
         </Row>
@@ -72,13 +73,12 @@ const BannerSettings: FC<{}> = () => {
         <Field title='Текст' name='text' value={banner.p.text}/>
         <RightColumn>
           <Field title='Размер' name='fontSize' value={banner.fontSize}/>
-          {/*<ValidationError value={banner.fontSize}/>*/}
           <Row>
             <Field title='Цвет' setVisible={() => setTextColorPickerVisible(prevState => !prevState)} color={banner.color}/>
             {
               textColorPickerVisible &&
               <PickerWrapper>
-                <SketchPicker color={banner.color} onChangeComplete={(color: any) => banner.setState({...banner, color: color.hex})}/>
+                <SketchPicker color={banner.color} onChangeComplete={(color: Color) => banner.setState({...banner, color: color.hex})}/>
               </PickerWrapper>
             }
           </Row>

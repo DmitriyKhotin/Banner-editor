@@ -11,7 +11,8 @@
     "baseUrl": "./src",
     "typeRoots": [ "types", "node_modules/@types"],
     "paths": {
-      "*": ["*"]
+      "*": ["*"],
+//       "providers": ["providers"]
     }
   },
   "exclude": ["node_modules", "typings"]

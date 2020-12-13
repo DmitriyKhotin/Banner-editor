@@ -27,6 +27,6 @@ const StyledHeader = styled.p`
   }
 `;
 
-const Header: FC<{}> = () => <StyledHeader>Avito - VAS</StyledHeader>
+const Header: FC = () => <StyledHeader>Avito - VAS</StyledHeader>
 
 export default Header

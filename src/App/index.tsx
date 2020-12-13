@@ -4,7 +4,7 @@ import Header from "./Header";
 import ButtonsRow from "../ButtonRow";
 import BannerSettings from "../BannerSettings";
 import BannerView from "../BannerView";
-import BannerProvider from '../providers/BannerProvider'
+import BannerProvider from 'providers/BannerProvider'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -63,7 +63,7 @@ const StyledWrapper = styled.div`
   
 `;
 
-const App: FC<{}> = () => {
+const App: FC = () => {
   return (
     <BannerProvider>
       <GlobalStyle/>

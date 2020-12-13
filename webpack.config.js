@@ -4,20 +4,26 @@ const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
-const isDev = !isProd
+
+const srcPath = path.resolve(__dirname, 'src')
+const distPath = path.resolve(__dirname, 'dist')
 
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
+  context: srcPath,
   mode: 'development',
   entry: './index.tsx',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: "bundle.[hash].js"
+    path: distPath,
+    filename: "bundle.[fullhash].js"
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js', '.json' ],
+    alias: {
+      providers: path.resolve(srcPath, 'providers'),
+
+    }
   },
-  devtool: isDev ? 'source-map' : false,
+  devtool: !isProd ? 'source-map' : false,
   optimization: {
     minimize: true
   },
@@ -33,8 +39,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'src/favicon.ico'),
-          to: path.resolve(__dirname, 'dist')
+          from: path.resolve(srcPath, 'favicon.ico'),
+          to: distPath
         }
       ]
     })

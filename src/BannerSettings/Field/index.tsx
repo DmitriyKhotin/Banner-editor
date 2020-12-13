@@ -1,6 +1,6 @@
-import React, {ChangeEvent, FC, ReactNode, useContext, useEffect} from "react"
+import React, {ChangeEvent, FC, ReactNode, useContext} from "react"
 import styled from "styled-components"
-import {BannerContext} from "../../providers/BannerProvider";
+import {BannerContext} from "providers/BannerProvider";
 
 const FieldWrapper = styled.div`
   border: 1px solid rgba(65, 46, 46, 0.32);
@@ -15,7 +15,7 @@ const FieldWrapper = styled.div`
     margin-right: 20px;
   }
   
-  @media (max-height: 850px) {
+  @media (max-height: 850px) {s
     font-size: 24px;
   }
   
@@ -114,14 +114,13 @@ interface Props {
   name?: string
 }
 
-
 const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
 
   const banner = useContext(BannerContext)
 
   const setFile = (event: {target: HTMLInputElement}) => {
     const reader = new FileReader()
-    reader.onload = function(event: {target: any}) {
+    reader.onload = (event: ProgressEvent<FileReader>) => {
       banner.setState({
         ...banner,
         imgs: [
@@ -172,7 +171,6 @@ const Field: FC<Props> = ({title, setVisible, color, value, name}) => {
         );
       case 'Текст':
         return <TextArea value={value} onChange={(event: ChangeEvent<HTMLTextAreaElement>) => banner.setState({...banner, p: {...banner.p, [name]: event.target.value}})}/>
-      // return <FieldInput type='text' value={value} onChange={(event: ChangeEvent<HTMLInputElement>) => banner.setState({...banner, p: {...banner.p, [name]: event.target.value}})}/>
       case 'Цвет':
         return (
           <ColorPicker color={color} onClick={setVisible}/>
