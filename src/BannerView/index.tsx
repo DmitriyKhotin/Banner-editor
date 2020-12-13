@@ -22,11 +22,14 @@ const BannerView: FC = () => {
   const dragAndDrop = (event: React.MouseEvent, elementType: BannerNames) => {
     const elem = document.getElementById((event.target as Element).id)
     elem.ondragstart = () => false
+
     const coords = getBannerCoords()
     moveAt(event.pageX, event.pageY)
 
+    const whichElement = (): number => (elementType === BannerNames.image || elementType === BannerNames.dataURI) ? elem.offsetWidth / 2 : banner.fontSize
+
     function moveAt(X: number, Y: number) {
-      if (X >= (coords.x + elem.offsetWidth / 2) && X <= (coords.x + banner.width - banner.fontSize) && Y >= (coords.y + elem.offsetHeight / 2) && Y <= (coords.y + banner.height - elem.offsetHeight / 2))
+      if (X >= (coords.x + elem.offsetWidth / 2) && X <= (coords.x + banner.width - whichElement()) && Y >= (coords.y + elem.offsetHeight / 2) && Y <= (coords.y + banner.height - elem.offsetHeight / 2))
         switch (elementType) {
           case BannerNames.image:
             setState({
