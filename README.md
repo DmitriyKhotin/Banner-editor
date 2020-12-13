@@ -8,7 +8,7 @@ Avito - Vas is a web application for construction banners.
 **1. Download the project**
 
 ```bash
-git clone https://github.com/Dmitriymgtu/Avito-vas
+git clone https://github.com/Dmitriymgtu/Avito-vas.git
 ```
 **2. Go to the application folder**
 
