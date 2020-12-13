@@ -48,25 +48,3 @@ export enum SettingTitles {
   background = 'Фон',
   font = 'Шрифт'
 }
-
-export interface Image2 {
-  id: string
-  src: string
-  left: number
-  top: number
-}
-
-export interface IBanner2 {
-  height: number
-  width: number
-  imgs: Image[]
-  dataURI: Image
-  backgroundColor: string
-  p: {
-    text: string,
-    left: number
-    top: number
-  }
-  fontSize: number
-  color: string
-}
