@@ -1,8 +1,9 @@
-# Avito - Vas
+# Banner editor
 
-Avito - Vas is a web application for construction banners.
+Banner editor is a web application for construction banners.
 
-Deployed: https://avito-vas.vercel.app
+Deployed: https://banner-editor.vercel.app
+
 ## Example
  ![](ezgif.com-video-to-gif.gif)
  
@@ -28,7 +29,7 @@ Deployed: https://avito-vas.vercel.app
 **1. Download the project**
 
 ```bash
-git clone https://github.com/Dmitriymgtu/Avito-vas.git
+git clone https://github.com/Dmitriymgtu/Banner-editor.git
 ```
 **2. Go to the application folder**
 
