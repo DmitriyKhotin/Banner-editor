@@ -40,7 +40,9 @@ cd Banner-editor
 ```bash
 npm start
 ```
-or```bash
+or
+
+```bash
 yarn start
 ```
 
